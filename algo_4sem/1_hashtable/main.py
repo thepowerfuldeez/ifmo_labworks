@@ -10,6 +10,8 @@ class HashTable:
         self.slots = [None] * self.size
         # key, value пары
         self.data =  [None] * self.size
+        self.n_collisions = 0
+        self.n_comparisons = 0
 
     def hashfunction(self, key):
         return ord(key[0]) + ord(key[1]) + ord(key[2])
@@ -24,6 +26,7 @@ class HashTable:
             self.data += [None]
             self.capacity += 1
 
+        hashvalue = self.hashfunction(key)
         if self.slots[hashvalue] == None:
             self.slots[hashvalue] = key
             self.data[hashvalue] = value
@@ -31,7 +34,7 @@ class HashTable:
         else:
         	# проверяем, нет ли коллизии по ключу
             if self.slots[hashvalue] == key:
-                self.data[hashvalue] = data
+                self.data[hashvalue] = value
             else:
                 rehashed = self.rehash(hashvalue, len(self.slots))
                 while self.slots[rehashed] != None and self.slots[rehashed] != key:
@@ -44,34 +47,23 @@ class HashTable:
                     self.data[rehashed] = value
 
     def get(self, key):
-        startslot = self.hashfunction(key, len(self.slots))
+        startslot = self.hashfunction(key)
         data = None
         found = False
         stop = False
         position = startslot
         while self.slots[position] != None and not found and not stop:
+            self.n_comparisons += 1
             if self.slots[position] == key:
-                data = self.data[key]
+                data = self.data[position]
                 found = True
             else:
+            	# случилась коллизия
+                self.n_collisions += 1
                 position = self.rehash(position, len(self.slots))
                 if position == startslot:
                     stop = True
         return data
-
-    def __delitem__(self, key):
-        hashvalue = self.hashfunction(key, len(self.slots))
-
-        if self.slots[hashvalue] == key:
-            self.slots[hashvalue] = None
-            self.data[hashvalue] = None
-        else:
-            rehashed = self.hashfunction(hashvalue, len(self.slots))
-            while self.slots[rehashed] != key:
-                rehashed = self.hashfunction(rehashed, len(self.slots))
-            if self.slots[rehashed] == key:
-                self.slots[rehashed] == None
-                self.data[rehashed] == None
 
     def __contains__(self, key):
         return key in self.slots
@@ -81,3 +73,32 @@ class HashTable:
 
     def __setitem__(self, key, value):
         self.put(key, value)
+
+
+if __name__ == '__main__':
+    table = HashTable(3500)
+    with open("sample_text.txt", encoding="windows-1251") as f:
+        for line in f:
+            if line.strip():
+                key, *value = line.split()
+                if len(key) >= 3:
+                    table[key] = " ".join(value)
+
+    with open("sample_text.txt", encoding="windows-1251") as g:
+        i = 1
+        j = 1
+        for line in g:
+            if line.strip():
+                key, *value = line.split()
+                if len(key) >= 3:
+                    v = table[key]
+                    if v == " ".join(value):
+                        i += 1
+                        # print(key, v)
+                    if j % 100 == 0:
+                        print(j, table.n_comparisons, table.n_collisions)
+                    j += 1
+    print(i / j)
+
+
+
