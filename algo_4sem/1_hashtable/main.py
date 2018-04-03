@@ -83,6 +83,8 @@ if __name__ == '__main__':
                 key, *value = line.split()
                 if len(key) >= 3:
                     table[key] = " ".join(value)
+    print(f"Степень заполненности хеш-таблицы {1 - table.capacity / 3500}")
+    print(f"Уникальных хешей: {len([a for a in table.slots if a])}")
 
     with open("sample_text.txt", encoding="windows-1251") as g:
         i = 1
@@ -96,9 +98,10 @@ if __name__ == '__main__':
                         i += 1
                         # print(key, v)
                     if j % 100 == 0:
-                        print(j, table.n_comparisons, table.n_collisions)
+                        print(f" Шаг {j}, кол-во сравнений {table.n_comparisons}, кол-во коллизий {table.n_collisions}")
                     j += 1
-    print(i / j)
+    print(f"Среднее кол-во сравнений {table.n_comparisons / i}")
+    print(f"Отношение кол-ва коллизий к общему числу элементов {table.n_collisions / table.n_comparisons}")
 
 
 
