@@ -1,51 +1,37 @@
 import numpy as np
+from math import sqrt
+np.seterr("ignore")
 
-def gaussSeidel(A, b, x, N, tol):
+def seidel(A, b, eps):
 	"""
 	:param: A – матрица коэффициентов
 	:param: b – столбец свободных членов
-	:param: x – начальное приближение
-	:param: N – итоговая размерность
-	:param: tol – точность
+	:param: eps – точность
 	"""
+	MAX_ITERATIONS = 10000
+	n = len(A)
+	x = np.zeros(n)
 
-	# максимальное кол-во допустимых итераций
-	MAX_ITERATIONS = 1000000
-	EPSILON = 1e-13
+	converge = False
+	cur_iter = 0
+	while not converge:
+		cur_iter += 1
+		if cur_iter > MAX_ITERATIONS:
+			return None, None, None
+		x_new = np.copy(x)
+		for i in range(n):
+			s1 = np.sum([np.nan_to_num(A[i][j] * x_new[j]) for j in range(i)])
+			s2 = np.sum([np.nan_to_num(A[i][j] * x[j]) for j in range(i + 1, n)])
+			# итерационный шаг
+			x_new[i] = np.nan_to_num(np.divide((b[i] - s1 - s2), A[i][i]))
 
-    # инициализируем список ответов нулями
-	xprev = [0.0 for i in range(N)]
-	for i in range(MAX_ITERATIONS):
-    	# заполняем значениями из x
-		for j in range(N):
-			xprev[j] = x[j]
-        # накапливаем сумму
-		for j in range(N):
-			summ = 0.0
-			for k in range(N):
-				if (k != j):
-					summ += A[j][k] * x[k]
-			x[j] = (b[j] - summ) / (A[j][j] + EPSILON)
+		# столбец погрешностей
+		norm = np.nan_to_num(x_new - x)
+		# условие на выход из цикла
+		converge = np.sqrt(np.sum(norm ** 2)) <= eps
+		x = x_new
 
-		diff1norm = []
-		oldnorm = []
-		for j in range(N):
-			diff1norm.append(abs(x[j] - xprev[j]))
-			oldnorm.append(abs(xprev[j]))
-		if sum(oldnorm) == 0.0:
-			norm = diff1norm
-		else:
-			norm = [a / (b + EPSILON) for a, b in zip(diff1norm, oldnorm)]
-
-		# выход из цикла – проверка условия на погрешность
-		if (sum(norm) < tol) and i != 0:
-			x_format = ', '.join([f"{a:.4E}" for a in x])
-			print(f"Итеративный процесс сходится к [{x_format}].")
-			print(f"Заняло {i + 1} итераций.")
-			norm_format = ', '.join([f"{a:.4E}" for a in norm])
-			print(f"Столбец погрешностей: [{norm_format}].")
-			return
-	print("Итеративный процесс не сошелся.")
+	return x, norm.tolist(), cur_iter
 
 if __name__ == '__main__':
 	n = input("Введите размерность: (Enter для 2): ")
@@ -53,23 +39,42 @@ if __name__ == '__main__':
 		n = 2
 	n = int(n)
 
-	tol = input("Введите точность (Enter для 1e-13): ")
-	if not tol:
-		tol = 1e-13
-	tol = float(tol)
+	eps = input("Введите точность (Enter для 1e-13): ")
+	if not eps:
+		eps = 1e-13
+	eps = float(eps)
 
 	if input("Хотите ввести свои значения коэффициентов? д/н ")[0].lower() == "д":
 		matrix = []
 		for _ in range(n):
 			matrix.append(list(map(float, input().split())))
 		vector = list(map(float, input().split()))
+		x, norm, n_iter = seidel(matrix, vector, eps)
+		if x is not None:
+			x_format = ', '.join([f"{a:.4E}" for a in x])
+			print(f"Итеративный процесс сходится к [{x_format}].")
+			print(f"Заняло {n_iter} итераций.")
+			norm_format = ', '.join([f"{a:.4E}" for a in norm])
+			print(f"Столбец погрешностей: [{norm_format}].")
+		else:
+			print("Итеративный процесс не сошелся")
+		print()
 	else:
 		if input("Хотите использовать случайные значения коэффициентов? д/н ")[0].lower() == "д":
-			matrix = np.random.random((n, n)).tolist()
-			vector = np.random.random(n).tolist()
+			matrix = np.random.random((n, n)) * 10
+			vector = np.random.random(n) * 10
 			print("\n".join([" ".join(list(map(str, a))) for a in matrix]))
 			print(vector)
-			gaussSeidel(matrix, vector, np.zeros(n).tolist(), n, tol)
+			x, norm, n_iter = seidel(matrix, vector, eps)
+			if x is not None:
+				x_format = ', '.join([f"{a:.4E}" for a in x])
+				print(f"Итеративный процесс сходится к [{x_format}].")
+				print(f"Заняло {n_iter} итераций.")
+				norm_format = ', '.join([f"{a:.4E}" for a in norm])
+				print(f"Столбец погрешностей: [{norm_format}].")
+			else:
+				print("Итеративный процесс не сошелся")
+			print()
 		else:
 			matrix2 = [
 			[1, 2],
@@ -85,9 +90,19 @@ if __name__ == '__main__':
 			[1, 1, 1, 1, 1, -7]]
 			vector6 = [0, 2, 1, 1, 4, -8]
 
-			n, tol = 6, 1e-13
-			gaussSeidel(matrix6, vector6, np.zeros(n).tolist(), n, tol)
+			n, eps = 6, 1e-13
+			x, norm, n_iter = seidel(matrix6, vector6, eps)
+			x_format = ', '.join([f"{a:.4E}" for a in x])
+			print(f"Итеративный процесс сходится к [{x_format}].")
+			print(f"Заняло {n_iter} итераций.")
+			norm_format = ', '.join([f"{a:.4E}" for a in norm])
+			print(f"Столбец погрешностей: [{norm_format}].")
 			print()
-			n, tol = 2, 1e-13
-			gaussSeidel(matrix2, vector2, np.zeros(n).tolist(), n, tol)
+			n, eps = 2, 1e-13
+			x, norm, n_iter = seidel(matrix2, vector2, eps)
+			x_format = ', '.join([f"{a:.4E}" for a in x])
+			print(f"Итеративный процесс сходится к [{x_format}].")
+			print(f"Заняло {n_iter} итераций.")
+			norm_format = ', '.join([f"{a:.4E}" for a in norm])
+			print(f"Столбец погрешностей: [{norm_format}].")
 			print()

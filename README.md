@@ -5,6 +5,7 @@ This is the repo which contains all labworks for all semesters in IFMO universit
 - Алгоритмы и структуры данных
 - Системное Прикладное Обеспечение
 - Функциональное программирование
+- Физика
 
 ## 3 семестр
 - [Программирование Интернет Приложений](https://se.ifmo.ru/courses/software-engineering-basics)

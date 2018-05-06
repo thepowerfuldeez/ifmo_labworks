@@ -25,18 +25,18 @@
 <body>
 <div class="container">
     <header class="back">
-    <h2>Программирование интернет-приложений</h2>
-    <h3> Григорьев Георгий P3217</h3>
-    <h4>Вариант 800</h4>
+        <h2>Программирование интернет-приложений</h2>
+        <h3> Григорьев Георгий P3217</h3>
+        <h4>Вариант 800</h4>
     </header>
     <div class="main back">
-        <img src="img/areas.png"  class="pic" name="img" alt="area" height="400px" width="400px">
+        <img src="img/areas.png" class="pic" name="img" alt="area" height="400px" width="400px">
         <div class="form-container">
             <form class="form" action="main.php" method="post" onsubmit="return check(this)" target="resultsFrame">
                 <hr/>
                 <div class="x">
                     <label>X: </label>
-                    <input type="text" name="X" placeholder="(-3...3)" required >
+                    <input type="text" name="X" placeholder="(-3...3)" required>
                 </div>
                 <hr/>
                 <div class="y">
@@ -50,18 +50,18 @@
                     <input type="radio" name="Y" required="true" value="1">1
                     <input type="radio" name="Y" required="true" value="2">2
                     <input type="radio" name="Y" required="true" value="3">3
-                <hr/>
-                <div class="r">
-                    <label>R: </label>
-                    <input type="radio" name="R"  required="true" value="1">1
-                    <input type="radio" name="R"  required="true" value="1.5">1.5
-                    <input type="radio" name="R"  required="true" value="2">2
-                    <input type="radio" name="R"  required="true" value="2.5">2.5
-                    <input type="radio" name="R"  required="true" value="3">3
-                </div>
-                <div>
-                    <button type="submit">Submit</button>
-                </div>
+                    <hr/>
+                    <div class="r">
+                        <label>R: </label>
+                        <input type="radio" name="R" required="true" value="1">1
+                        <input type="radio" name="R" required="true" value="1.5">1.5
+                        <input type="radio" name="R" required="true" value="2">2
+                        <input type="radio" name="R" required="true" value="2.5">2.5
+                        <input type="radio" name="R" required="true" value="3">3
+                    </div>
+                    <div>
+                        <button type="submit">Submit</button>
+                    </div>
             </form>
             <iframe name="resultsFrame" height="400px" width="600px" frameborder="1" hidden="hidden">
             </iframe>
