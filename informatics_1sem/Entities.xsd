@@ -1,0 +1,1313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="EventsGraphNavigator.Interaction.Entities"
+    targetNamespace="EventsGraphNavigator.Interaction.Entities"
+    elementFormDefault="qualified"
+    xmlns="EventsGraphNavigator.Interaction.Entities"
+    xmlns:mstns="EventsGraphNavigator.Interaction.Entities"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--<xs:import namespace="EventsGraphNavigator.Interaction.Channel" />-->
+  <xs:include schemaLocation="Channel\Channel.xsd" />
+
+  <!-- xsd2code.exe .\Entities.xsd -->
+
+  <xs:element name="EntityIds" type="GuidsList" />
+
+  <xs:element name="AnyEntities" type="AnyRootEntitiesType" />
+  
+  <xs:complexType name="AnyRootEntitiesType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:group ref="AnyRootEntityTypeElements" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="AnyRootEntityTypeElements">
+    <xs:choice>
+
+      <xs:element ref="EntityIds" />
+
+      <xs:element ref="SourcesFolder" />
+      <xs:element ref="SourcesSource" />
+      <xs:element ref="SourceInfo" />
+
+      <xs:element ref="PatternsFolder" />
+      <xs:element ref="PatternsLine" />
+      <xs:element ref="PatternsTag" />
+      <xs:element ref="PatternsRegex" />
+      <xs:element ref="LinePatternInfo"/>
+      <xs:element ref="TagPatternInfo" />
+
+      <xs:element ref="LogMessages" />
+      <xs:element ref="LogMessage" />
+
+      <xs:element ref="TagInstances" />
+      <xs:element ref="TagInstance" />
+
+      <xs:element ref="LogMessagesContainingTextFromSourceFixedQuery" />
+
+      <xs:element ref="LogMessagesCustomQuery" />
+      <xs:element ref="TagInstancesCustomQuery" />
+
+      <xs:element ref="TaskEntity" />
+      
+    </xs:choice>
+  </xs:group>
+
+  <!-- Region Common entities -->
+
+  <xs:complexType name="IdentifiedEntityBaseType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:attribute name="IdString" type="GuidString" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NamedEntityBaseType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="IdentifiedEntityBaseType">
+        <xs:attribute name="Name" type="string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ReferenceEntityType">
+    <xs:complexContent>
+      <xs:extension base="NamedEntityBaseType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region SourcesManager entities -->
+
+  <xs:element name="SourcesFolder" type="SourcesFolderEntityType" />
+  <xs:element name="SourcesSource" type="SourcesSourceEntityType" />
+  <xs:element name="SourceChangeKind" type="SourceChangeKindType"/>
+  <xs:element name="SourceInfo" type="SourceInfoType" />
+
+  <xs:complexType name="SourcesItemBaseType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="NamedEntityBaseType">
+        <xs:sequence>
+          <xs:element name="Description" type="string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SourcesFolderEntityType">
+    <xs:complexContent>
+      <xs:extension base="SourcesItemBaseType">
+        <xs:sequence>
+          <xs:element name="ChildFolders">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="BaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Folder" type="ReferenceEntityType" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ChildSources">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="BaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Source" type="ReferenceEntityType" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SourcesSourceEntityType">
+    <xs:complexContent>
+      <xs:extension base="SourcesItemBaseType">
+        <xs:sequence>
+          <xs:element name="IsObsolete" type="bool"/>
+          <xs:element name="ControlOptions" type="SourceControlOptionsInfoType" />
+          <xs:element name="Childs">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="BaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Source" type="ReferenceEntityType" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SourceInfoType">
+    <xs:complexContent>
+      <xs:extension base="NamedEntityBaseType">
+        <xs:sequence>
+          <xs:element name="ControlOptions" type="SourceControlOptionsInfoType" />
+          <xs:element name="FilterOptions" type="SourceFilterOptionsInfoType" />
+          <xs:element name="PostFilterAction" type="SourcePostFilterActionInfoType" />
+        </xs:sequence>
+        <xs:attribute name="IsFile" type="bool" use="required"/>
+        <xs:attribute name="IsObsolete" type="bool" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SourceControlOptionsInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="IsLive" type="bool" use="required" />
+        <xs:attribute name="IsUserMaintained" type="bool" use="required" />
+        <xs:attribute name="IsEnabled" type="bool" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SourceFilterOptionsInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:element name="BaseFolders" type="StringsList" />
+          <xs:element name="FilesWildcard" type="StringsList" />
+          <xs:element name="FoldersWildcard" type="StringsList"/>
+          <xs:element name="ExcludedFiles" type="StringsList" />
+          <xs:element name="ExcludedFolders" type="StringsList" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SourcePostFilterActionInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:element name="CommandLine" type="string" />
+          <xs:element name="SubFilterSource" type="ReferenceEntityType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="SourceChangeKindType">
+    <xs:restriction base="string">
+      <xs:enumeration value="NotChanged"/>
+      <xs:enumeration value="AddedLines"/>
+      <xs:enumeration value="Rewritten"/>
+      <xs:enumeration value="FileRemoved"/>
+      <xs:enumeration value="FileAdded"/>
+      <xs:enumeration value="Renamed"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  
+  <!-- EndRegion -->
+
+  <!-- Region PatternsManager entities -->
+
+  <xs:element name="PatternsFolder" type="PatternsFolderEntityType" />
+  <xs:element name="PatternsRegex" type="PatternsRegexPatternEntityType" />
+  <xs:element name="PatternsTag" type="PatternsTagPatternEntityType" />
+  <xs:element name="PatternsLine" type="PatternsLinePatternEntityType" />
+
+  <xs:element name="TagPatternInfo" type="TagPatternInfoType" />
+  <xs:element name="LinePatternInfo" type="LinePatternInfoType" />
+
+  <xs:complexType name="PatternsItemBaseType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="NamedEntityBaseType">
+        <xs:sequence>
+          <xs:element name="Description" type="string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PatternsFolderEntityType">
+    <xs:complexContent>
+      <xs:extension base="PatternsItemBaseType">
+        <xs:sequence>
+          <xs:element name="ChildFolders">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="BaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Folder" type="ReferenceEntityType" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ChildRegexPatterns">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="BaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Regex" type="ReferenceEntityType" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ChildTagPatterns">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="BaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Tag" type="ReferenceEntityType" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ChildLinePatterns">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="BaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Line" type="ReferenceEntityType" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PatternsRegexPatternEntityType">
+    <xs:complexContent>
+      <xs:extension base="PatternsItemBaseType">
+        <xs:sequence>
+          <xs:element name="Expression" type="string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PatternsTagPatternEntityType">
+    <xs:complexContent>
+      <xs:extension base="PatternsItemBaseType">
+        <xs:sequence>
+          <xs:group ref="TagModelElement" />
+        </xs:sequence>
+        <xs:attribute name="MatchingMode" type="TagMatchingModeType" use="required" />
+        <xs:attribute name="OrderSpecific" type="bool" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PatternsLinePatternEntityType">
+    <xs:complexContent>
+      <xs:extension base="PatternsItemBaseType">
+        <xs:sequence>
+          <xs:group ref="TagModelElement" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagPatternInfoType">
+    <xs:complexContent>
+      <xs:extension base="NamedEntityBaseType">
+        <xs:sequence>
+          <xs:group ref="TagModelElement" />
+        </xs:sequence>
+        <xs:attribute name="MatchingMode" type="TagMatchingModeType" use="required" />
+        <xs:attribute name="OrderSpecific" type="bool" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LinePatternInfoType">
+    <xs:complexContent>
+      <xs:extension base="NamedEntityBaseType">
+        <xs:sequence>
+          <xs:group ref="TagModelElement" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="TagModelElement">
+    <xs:sequence>
+      <xs:element name="Model" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="TagModelUnaryNodeInfoType" />
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:simpleType name="TagMatchingModeType">
+    <xs:restriction base="string">
+      <xs:enumeration value="ByTree" />
+      <xs:enumeration value="ByTerms" />
+      <xs:enumeration value="ByAllTerms" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="TagModelNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelUnaryNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="TagModelNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="TagModelNodeElements" />-->
+          <xs:choice>
+            <xs:element name="Text" type="TagModelTextNodeInfoType" />
+            <xs:element name="Pattern" type="TagModelPatternNodeInfoType" />
+            <xs:element name="Alternatives" type="TagModelAlternativesNodeInfoType" />
+            <xs:element name="Sequence" type="TagModelSequenceNodeInfoType" />
+            <xs:element name="Number" type="TagModelNumberNodeInfoType" />
+            <xs:element name="Contains" type="TagModelContainsNodeInfoType" />
+            <xs:element name="NotContains" type="TagModelNotContainsNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelGroupNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="TagModelNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="TagModelNodeElements" minOccurs="2" maxOccurs="unbounded" />-->
+          <xs:choice minOccurs="2" maxOccurs="unbounded" >
+            <xs:element name="Text" type="TagModelTextNodeInfoType" />
+            <xs:element name="Pattern" type="TagModelPatternNodeInfoType" />
+            <xs:element name="Alternatives" type="TagModelAlternativesNodeInfoType" />
+            <xs:element name="Sequence" type="TagModelSequenceNodeInfoType" />
+            <xs:element name="Number" type="TagModelNumberNodeInfoType" />
+            <xs:element name="Contains" type="TagModelContainsNodeInfoType" />
+            <xs:element name="NotContains" type="TagModelNotContainsNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--<xs:group name="TagModelNodeElements">
+    <xs:choice>
+      <xs:element name="Text" type="TagModelTextNodeInfoType" />
+      <xs:element name="Pattern" type="TagModelPatternNodeInfoType" />
+      <xs:element name="Alternatives" type="TagModelAlternativesNodeInfoType" />
+      <xs:element name="Sequence" type="TagModelSequenceNodeInfoType" />
+      <xs:element name="Number" type="TagModelNumberNodeInfoType" />
+      <xs:element name="Contains" type="TagModelContainsNodeInfoType" />
+      <xs:element name="NotContains" type="TagModelNotContainsNodeInfoType" />
+    </xs:choice>
+  </xs:group>-->
+
+  <xs:complexType name="TagModelTextNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagModelNodeInfoType">
+        <xs:attribute name="Value" type="string" use="required" />
+        <xs:attribute name="MatchCase" type="bool" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelPatternNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagModelNodeInfoType">
+        <xs:attribute name="Name" type="string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelAlternativesNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagModelGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelSequenceNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagModelGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelNumberNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagModelUnaryNodeInfoType">
+        <xs:attribute name="From" type="int" use="optional" />
+        <xs:attribute name="To" type="int" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelContainsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagModelUnaryNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagModelNotContainsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagModelUnaryNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region Log message entities -->
+
+  <xs:element name="LogMessage" type="LogMessageEntityType" />
+  <xs:element name="LogMessages" type="LogMessagesEntityType" />
+
+  <xs:complexType name="LogMessagesEntityType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="LogMessage" type="LogMessageEntityType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LogMessageEntityType">
+    <xs:complexContent>
+      <xs:extension base="IdentifiedEntityBaseType">
+        <xs:sequence>
+          <xs:element name="Source" type="ReferenceEntityType" />
+          <xs:element name="Text" type="string" />
+          <xs:element name="TagEntries" minOccurs="0" maxOccurs="1" type="LogMessageTagEntriesInfoType" />
+        </xs:sequence>
+        <xs:attribute name="Line" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LogMessageTagEntriesInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="TagEntry" type="LogMessageTagEntryInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LogMessageTagEntryInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:element name="TagInstance" type="ReferenceEntityType" />
+        </xs:sequence>
+        <xs:attribute name="Column" type="int" use="required" />
+        <xs:attribute name="Length" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region Tag instance entities -->
+
+  <xs:element name="TagInstance" type="TagInstanceEntityType" />
+  <xs:element name="TagInstances" type="TagInstancesEntityType" />
+
+  <xs:complexType name="TagInstancesEntityType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="TagInstance" type="TagInstanceEntityType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceEntityType">
+    <xs:complexContent>
+      <xs:extension base="IdentifiedEntityBaseType">
+        <xs:sequence>
+          <xs:element name="TagPattern" type="ReferenceEntityType" />
+          <xs:element name="Keys" type="TagInstanceKeysInfoType" />
+          <xs:element name="Entries" type="TagInstanceEntriesInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceKeysInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Key" type="TagInstanceKeyInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceKeyInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:element name="ValuePattern" type="ReferenceEntityType" />
+          <xs:choice>
+            <xs:element name="PlainValue" type="TagInstanceKeyPlainValueInfoType" />
+            <xs:element name="ComplexValue" type="TagInstanceKeyComplexValueInfoType" />
+          </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="Order" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceKeyValueInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceKeyPlainValueInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagInstanceKeyValueInfoType">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="String" type="string" />
+            <xs:element name="Integer" type="int"/>
+            <xs:element name="DateTime" type="DateTime"/>
+            <xs:element name="Decimal" type="xs:decimal"/>
+          </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="ValueType" type="TagInstanceKeyValueType" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceKeyComplexValueInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagInstanceKeyValueInfoType">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="TagInstance" type="ReferenceEntityType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceEntriesInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Entry" type="TagInstanceEntryInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstanceEntryInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:element name="Message" type="ReferenceEntityType" />
+          <xs:element name="Source" type="ReferenceEntityType" />
+        </xs:sequence>
+        <xs:attribute name="Line" type="int" use="required" />
+        <xs:attribute name="Column" type="int" use="required" />
+        <xs:attribute name="Length" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region Querying entities -->
+
+  <xs:complexType name="StringMatchingSpecInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <xs:element name="Pattern" type="string" />
+        </xs:sequence>
+        <xs:attribute name="MatchWholeWord" type="bool" use="required" />
+        <xs:attribute name="MatchCase" type="bool" use="required" />
+        <xs:attribute name="MatchingMode" type="StringMatchingModeType" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="StringMatchingModeType">
+    <xs:restriction base="string">
+      <xs:enumeration value="String" />
+      <xs:enumeration value="Regex" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TagInstanceKeyValueType">
+    <xs:restriction base="string">
+      <xs:enumeration value="String"/>
+      <xs:enumeration value="Integer"/>
+      <xs:enumeration value="DateTime"/>
+      <xs:enumeration value="Decimal"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="QueryInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:attribute name="Name" type="string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LogMessagesQueryInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstancesQueryInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Region fixed queries -->
+
+  <xs:element name="LogMessagesContainingTextFromSourceFixedQuery" type="LogMessagesContainingTextFromSourceQueryInfoType" />
+
+  <xs:complexType name="LogMessagesContainingTextFromSourceQueryInfoType">
+    <xs:complexContent>
+      <xs:extension base="LogMessagesQueryInfoType">
+        <xs:sequence>
+          <xs:element name="Source">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="IdentifiedEntityBaseType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Text" type="StringMatchingSpecInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region custom queries -->
+
+  <xs:element name="LogMessagesCustomQuery" type="LogMessagesCustomQueryInfoType" />
+  <xs:element name="LogMessagesFullTextQuery" type="LogMessagesFullTextQueryInfoType"/>
+  <xs:element name="TagInstancesCustomQuery" type="TagInstancesCustomQueryInfoType" />
+
+  <xs:complexType name="LogMessagesCustomQueryInfoType">
+    <xs:complexContent>
+      <xs:extension base="LogMessagesQueryInfoType">
+        <xs:sequence>
+          <xs:element name="IncludeObsoleteSources" type="bool"/>
+          <xs:element name="Model">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryLogMessageUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LogMessagesFullTextQueryInfoType">
+    <xs:complexContent>
+      <xs:extension base="LogMessagesQueryInfoType">
+        <xs:sequence>
+          <xs:element name="IncludeObsoleteSources" type="bool"/>
+          <xs:element name="QueryString" type="string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TagInstancesCustomQueryInfoType">
+    <xs:complexContent>
+      <xs:extension base="TagInstancesQueryInfoType">
+        <xs:sequence>
+          <xs:element name="Model">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryTagInstanceUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="Invert" type="bool" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region per message -->
+
+  <xs:complexType name="QueryLogMessageNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageUnaryNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="QueryLogMessageNodeElements" />-->
+          <xs:choice>
+            <xs:element name="TextContains" type="QueryLogMessageTextContainsNodeInfoType" />
+            <xs:element name="LineNumberIs" type="QueryLogMessageLineNumberIsNodeInfoType" />
+            <xs:element name="SourceNameContains" type="QueryLogMessageSourceNameContainsNodeInfoType" />
+            <xs:element name="SourceIdIs" type="QueryLogMessageSourceIdIsNodeInfoType" />
+            <xs:element name="SourceHasMessage" type="QueryLogMessageSourceHasMessageNodeInfoType" />
+            <xs:element name="MessageHasTagInstance" type="QueryLogMessageHasTagInstanceNodeInfoType" />
+            <xs:element name="All" type="QueryLogMessageAllNodeInfoType" />
+            <xs:element name="Any" type="QueryLogMessageAnyNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageGroupNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="QueryLogMessageNodeElements" minOccurs="2" maxOccurs="unbounded" />-->
+          <xs:choice minOccurs="2" maxOccurs="unbounded">
+            <xs:element name="TextContains" type="QueryLogMessageTextContainsNodeInfoType" />
+            <xs:element name="LineNumberIs" type="QueryLogMessageLineNumberIsNodeInfoType" />
+            <xs:element name="SourceNameContains" type="QueryLogMessageSourceNameContainsNodeInfoType" />
+            <xs:element name="SourceIdIs" type="QueryLogMessageSourceIdIsNodeInfoType" />
+            <xs:element name="SourceHasMessage" type="QueryLogMessageSourceHasMessageNodeInfoType" />
+            <xs:element name="MessageHasTagInstance" type="QueryLogMessageHasTagInstanceNodeInfoType" />
+            <xs:element name="All" type="QueryLogMessageAllNodeInfoType" />
+            <xs:element name="Any" type="QueryLogMessageAnyNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--<xs:group name="QueryLogMessageNodeElements">
+    <xs:choice>
+      <xs:element name="TextContains" type="QueryLogMessageTextContainsNodeInfoType" />
+      <xs:element name="LineNumberIs" type="QueryLogMessageLineNumberIsNodeInfoType" />
+      <xs:element name="SourceNameContains" type="QueryLogMessageSourceNameContainsNodeInfoType" />
+      <xs:element name="SourceIdIs" type="QueryLogMessageSourceIdIsNodeInfoType" />
+      <xs:element name="SourceHasMessage" type="QueryLogMessageSourceHasMessageNodeInfoType" />
+      <xs:element name="MessageHasTagInstance" type="QueryLogMessageHasTagInstanceNodeInfoType" />
+      <xs:element name="All" type="QueryLogMessageAllNodeInfoType" />
+      <xs:element name="Any" type="QueryLogMessageAnyNodeInfoType" />
+    </xs:choice>
+  </xs:group>-->
+
+  <xs:complexType name="QueryLogMessageTextContainsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Text" type="StringMatchingSpecInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageLineNumberIsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Value" type="NumberMatchingSpecInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageSourceNameContainsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Text" type="StringMatchingSpecInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageSourceIdIsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:attribute name="Value" type="GuidString" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageSourceHasMessageNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Where">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryLogMessageUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageHasTagInstanceNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Where">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryTagInstanceUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageAllNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryLogMessageAnyNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryLogMessageGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region per tag instance -->
+
+  <xs:complexType name="QueryTagInstanceNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceUnaryNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="QueryTagInstanceNodeElements" />-->
+          <xs:choice>
+            <xs:element name="PatternNameContains" type="QueryTagInstancePatternNameContainsNodeInfoType" />
+            <xs:element name="PatternIdIs" type="QueryTagInstancePatternIdIsNodeInfoType" />
+            <xs:element name="IdIs" type="QueryTagInstanceIdIsNodeInfoType" />
+            <xs:element name="TagInstanceHasKey" type="QueryTagInstanceHasKeyNodeInfoType" />
+            <xs:element name="TagInstanceIsInMessage" type="QueryTagInstanceIsInMessageNodeInfoType" />
+            <xs:element name="All" type="QueryTagInstanceAllNodeInfoType" />
+            <xs:element name="Any" type="QueryTagInstanceAnyNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceGroupNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="QueryTagInstanceNodeElements" minOccurs="2" maxOccurs="unbounded" />-->
+          <xs:choice minOccurs="2" maxOccurs="unbounded">
+            <xs:element name="PatternNameContains" type="QueryTagInstancePatternNameContainsNodeInfoType" />
+            <xs:element name="PatternIdIs" type="QueryTagInstancePatternIdIsNodeInfoType" />
+            <xs:element name="IdIs" type="QueryTagInstanceIdIsNodeInfoType" />
+            <xs:element name="TagInstanceHasKey" type="QueryTagInstanceHasKeyNodeInfoType" />
+            <xs:element name="TagInstanceIsInMessage" type="QueryTagInstanceIsInMessageNodeInfoType" />
+            <xs:element name="All" type="QueryTagInstanceAllNodeInfoType" />
+            <xs:element name="Any" type="QueryTagInstanceAnyNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--<xs:group name="QueryTagInstanceNodeElements">
+    <xs:choice>
+      <xs:element name="PatternNameContains" type="QueryTagInstancePatternNameContainsNodeInfoType" />
+      <xs:element name="PatternIdIs" type="QueryTagInstancePatternIdIsNodeInfoType" />
+      <xs:element name="IdIs" type="QueryTagInstanceIdIsNodeInfoType" />
+      <xs:element name="TagInstanceHasKey" type="QueryTagInstanceHasKeyNodeInfoType" />
+      <xs:element name="TagInstanceIsInMessage" type="QueryTagInstanceIsInMessageNodeInfoType" />
+      <xs:element name="All" type="QueryTagInstanceAllNodeInfoType" />
+      <xs:element name="Any" type="QueryTagInstanceAnyNodeInfoType" />
+    </xs:choice>
+  </xs:group>-->
+
+  <xs:complexType name="QueryTagInstancePatternNameContainsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Text" type="StringMatchingSpecInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceAllNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceAnyNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceIsInMessageNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Where">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryLogMessageUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstancePatternIdIsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceNodeInfoType">
+        <xs:attribute name="Value" type="GuidString" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceIdIsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceNodeInfoType">
+        <xs:attribute name="Value" type="GuidString" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceHasKeyNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Where">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryTagInstanceKeyUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <!-- Region per tag instance key -->
+
+  <xs:complexType name="QueryTagInstanceKeyNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyUnaryNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="QueryTagInstanceKeyNodeElements" />-->
+          <xs:choice>
+            <xs:element name="ValuePatternNameContains" type="QueryTagInstanceKeyValuePatternNameContainsNodeInfoType" />
+            <xs:element name="ValuePatternIdIs" type="QueryTagInstanceKeyValuePatternIdIsNodeInfoType" />
+            <xs:element name="ValueContains" type="QueryTagInstanceKeyValueContainsNodeInfoType" />
+            <xs:element name="ValueContainsTag" type="QueryTagInstanceKeyValueContainsTagInstanceNodeInfoType" />
+            <xs:element name="KeyIsInTagInstance" type="QueryTagInstanceKeyIsInTagInstanceNodeInfoType" />
+            <xs:element name="OrderIs" type="QueryTagInstanceKeyOrderIsNodeInfoType" />
+            <xs:element name="All" type="QueryTagInstanceKeyAllNodeInfoType" />
+            <xs:element name="Any" type="QueryTagInstanceKeyAnyNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyGroupNodeInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:sequence>
+          <!--<xs:group ref="QueryTagInstanceKeyNodeElements" minOccurs="2" maxOccurs="unbounded" />-->
+          <xs:choice minOccurs="2" maxOccurs="unbounded">
+            <xs:element name="ValuePatternNameContains" type="QueryTagInstanceKeyValuePatternNameContainsNodeInfoType" />
+            <xs:element name="ValuePatternIdIs" type="QueryTagInstanceKeyValuePatternIdIsNodeInfoType" />
+            <xs:element name="ValueContains" type="QueryTagInstanceKeyValueContainsNodeInfoType" />
+            <xs:element name="ValueContainsTag" type="QueryTagInstanceKeyValueContainsTagInstanceNodeInfoType" />
+            <xs:element name="KeyIsInTagInstance" type="QueryTagInstanceKeyIsInTagInstanceNodeInfoType" />
+            <xs:element name="OrderIs" type="QueryTagInstanceKeyOrderIsNodeInfoType" />
+            <xs:element name="All" type="QueryTagInstanceKeyAllNodeInfoType" />
+            <xs:element name="Any" type="QueryTagInstanceKeyAnyNodeInfoType" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!--<xs:group name="QueryTagInstanceKeyNodeElements">
+    <xs:choice>
+      <xs:element name="ValuePatternNameContains" type="QueryTagInstanceKeyValuePatternNameContainsNodeInfoType" />
+      <xs:element name="ValuePatternIdIs" type="QueryTagInstanceKeyValuePatternIdIsNodeInfoType" />
+      <xs:element name="ValueContains" type="QueryTagInstanceKeyValueContainsNodeInfoType" />
+      <xs:element name="ValueContainsTag" type="QueryTagInstanceKeyValueContainsTagInstanceNodeInfoType" />
+      <xs:element name="KeyIsInTagInstance" type="QueryTagInstanceKeyIsInTagInstanceNodeInfoType" />
+      <xs:element name="OrderIs" type="QueryTagInstanceKeyOrderIsNodeInfoType" />
+      <xs:element name="All" type="QueryTagInstanceKeyAllNodeInfoType" />
+      <xs:element name="Any" type="QueryTagInstanceKeyAnyNodeInfoType" />
+    </xs:choice>
+  </xs:group>-->
+
+  <xs:complexType name="QueryTagInstanceKeyValuePatternNameContainsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Text" type="StringMatchingSpecInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyValueContainsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Text" type="StringMatchingSpecInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyValueContainsTagInstanceNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Where">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryTagInstanceUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyValuePatternIdIsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:attribute name="Value" type="GuidString" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyIsInTagInstanceNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:sequence>
+          <xs:element name="Where">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="QueryTagInstanceUnaryNodeInfoType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyOrderIsNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyNodeInfoType">
+        <xs:attribute name="Value" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyAllNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTagInstanceKeyAnyNodeInfoType">
+    <xs:complexContent>
+      <xs:extension base="QueryTagInstanceKeyGroupNodeInfoType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+  
+  <!-- Region per number -->
+
+  <xs:complexType name="NumberMatchingSpecInfoType">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:sequence>
+          <!--todo-->
+          <xs:element name="Value" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion-->
+  
+  <!-- EndRegion -->
+  
+  <!-- Region Tasks queue entities -->
+
+  <xs:element name="TaskEntity" type="TaskEntityType" />
+
+  <xs:complexType name="TaskEntityType">
+    <xs:complexContent>
+      <xs:extension base="NamedEntityBaseType">
+        <xs:sequence>
+          <xs:element name="Status" type="string" />
+        </xs:sequence>
+        <xs:attribute name="State" type="TaskStateType" use="required" />
+        <xs:attribute name="Progress" type="int" use="required" />
+        <xs:attribute name="CreationTime" type="DateTime" use="required" />
+        <xs:attribute name="StartTime" type="DateTime" use="required" />
+        <xs:attribute name="EndTime" type="DateTime" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="TaskStateType">
+    <xs:restriction base="string">
+      <xs:enumeration value="Queued" />
+      <xs:enumeration value="Running" />
+      <xs:enumeration value="Finised" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- EndRegion -->
+
+  <!-- Region common base types -->
+
+  <xs:complexType name="StringsList">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Item" type="string" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GuidsList">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Item">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="IdentifiedEntityBaseType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="GuidString">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\})"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- EndRegion -->
+
+  <xs:simpleType name="DateTime">
+    <xs:restriction base="xs:dateTime">
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

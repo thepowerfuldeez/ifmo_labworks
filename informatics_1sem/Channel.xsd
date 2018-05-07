@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--<xs:schema id="EventsGraphNavigator.Interaction.Channel"
+    targetNamespace="EventsGraphNavigator.Interaction.Channel"
+    elementFormDefault="qualified"
+    xmlns="EventsGraphNavigator.Interaction.Channel"
+    xmlns:mstns="EventsGraphNavigator.Interaction.Channel"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">-->
+
+<xs:schema id="EventsGraphNavigator.Interaction.Channel"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- xsd2code.exe .\Channel.xsd -->
+
+  <xs:element name="RpcCommand" type="RpcCommandInfoType" />
+
+  <xs:complexType name="BaseType" abstract="true">
+  </xs:complexType>
+
+  <!-- Region commands -->
+
+  <xs:complexType name="RpcBaseType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="BaseType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcCommandInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:choice>
+          <xs:element name="Call" type="RpcCallCommandInfoType" />
+          <xs:element name="Result" type="RpcResultCommandInfoType" />
+          <xs:element name="Release" type="RpcReleaseCommandInfoType" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcCommandContentInfoType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:sequence>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcCallCommandInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcCommandContentInfoType">
+        <xs:sequence>
+          <xs:element name="RemoteInstanceId" type="RpcSharedObjectKeyInfoType" />
+          <xs:element name="MethodId" type="RpcMethodReferencInfoType" />
+          <xs:element name="Arguments" type="RpcValueContainersListType" />
+        </xs:sequence>
+        <xs:attribute name="CallId" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcResultCommandInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcCommandContentInfoType">
+        <xs:sequence>
+          <xs:element name="ReturnValue" type="RpcValueContainerType" />
+          <xs:element name="OutArguments" type="RpcValueContainersListType" />
+          <xs:element name="Exception" type="RpcExceptionDescriptionInfoType" />
+        </xs:sequence>
+        <xs:attribute name="CallId" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcReleaseCommandInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcCommandContentInfoType">
+        <xs:sequence>
+          <xs:element name="RemoteInstanceId" type="RpcSharedObjectKeyInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcSharedObjectKeyInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:sequence>
+          <xs:element name="Value" type="string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcMethodReferencInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:sequence>
+          <xs:element name="GenericSignatureTypes" type="RpcMethodReferenceGenericTypesInfoType" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="DeclaringTypeName" type="string" use="required" />
+        <xs:attribute name="MethodName" type="string" use="required" />
+        <xs:attribute name="MetadataToken" type="int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcMethodReferenceGenericTypesInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:sequence>
+          <xs:element name="TypeName" type="string" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcValueContainersListType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Value" type="RpcValueContainerType" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcValueContainerType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="Instance" type="BaseType" />
+            <xs:element name="String" type="string" />
+            <xs:element name="Int32" type="int" />
+            <xs:element name="Boolean" type="bool" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcExceptionDescriptionInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:sequence>
+          <xs:element name="Message" type="string" />
+          <xs:element name="StackTrace" type="string" />
+          <xs:element name="InnerException" type="RpcExceptionDescriptionInfoType" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RpcRemoteObjectReferenceInfoType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:sequence>
+          <xs:element name="RemoteInstanceId" type="RpcSharedObjectKeyInfoType" />
+          <xs:element name="InterfaceTypes">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="RpcBaseType">
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Type" type="string" />
+                  </xs:choice>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- EndRegion -->
+
+  <xs:simpleType name="bool">
+    <xs:restriction base="xs:boolean" />
+  </xs:simpleType>
+
+  <xs:simpleType name="string">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="int">
+    <xs:restriction base="xs:int" />
+  </xs:simpleType>
+  
+</xs:schema>
