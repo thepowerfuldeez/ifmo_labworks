@@ -1,8 +1,15 @@
-<project name="lab3" default="build" basedir=".">
+<project name="lab3" default="build" basedir="."
+         xmlns:ivy="antlib:org.apache.ivy.ant">
 
+    <property name="ivy.jar.dir" value="${user.home}/.ivy2/jars" />
+	<property name="ivy.jar.file" value="lib/ivy.jar" />
     <property file="build.properties"/>
 
-    <target name="clean">
+    <target name="resolve" description="--> retrieve dependencies with ivy">
+        <ivy:retrieve />
+    </target>
+
+    <target name="clean" depends="resolve">
         <delete dir="${build.dir}"/>
         <delete dir="doc"/>
         <delete dir="reports"/>
