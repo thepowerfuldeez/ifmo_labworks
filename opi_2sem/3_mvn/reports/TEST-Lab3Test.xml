@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="11" hostname="correct-name" name="Lab3Test" skipped="0" tests="11" time="0.268" timestamp="2018-06-01T11:56:33">
+  <properties>
+    <property name="java.vendor" value="Apple Inc." />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="junit.jar.path" value="junit-4.12.jar" />
+    <property name="impl.title" value="lab3" />
+    <property name="os.name" value="Mac OS X" />
+    <property name="sun.boot.class.path" value="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar" />
+    <property name="javac.target" value="1.8" />
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="ant.home" value="/Applications/IntelliJ IDEA.app/Contents/lib/ant" />
+    <property name="jar.dir" value="build/jar" />
+    <property name="java.runtime.version" value="1.6.0_65-b14-468" />
+    <property name="user.name" value="thepowerfuldeez" />
+    <property name="awt.nativeDoubleBuffering" value="true" />
+    <property name="spec.title" value="Lab #3" />
+    <property name="build.dir" value="build" />
+    <property name="file.jar" value="build/jar/lab3.jar" />
+    <property name="user.language" value="en" />
+    <property name="impl.vendor" value="Grigoriev and Vasiliev" />
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries" />
+    <property name="ant.project.default-target" value="build" />
+    <property name="doc.dir" value="doc" />
+    <property name="prj.dir" value="." />
+    <property name="ant.project.name" value="lab3" />
+    <property name="java.version" value="1.6.0_65" />
+    <property name="user.timezone" value="" />
+    <property name="spec.version" value="1.0.0" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="java.endorsed.dirs" value="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed" />
+    <property name="sun.cpu.isalist" value="" />
+    <property name="sun.jnu.encoding" value="MacRoman" />
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="file.separator" value="/" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="java.class.version" value="50.0" />
+    <property name="user.country" value="US" />
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home" />
+    <property name="java.vm.info" value="mixed mode" />
+    <property name="ant.file" value="/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/build.xml" />
+    <property name="os.version" value="10.13.3" />
+    <property name="javac.source" value="1.8" />
+    <property name="path.separator" value=":" />
+    <property name="java.vm.version" value="20.65-b04-468" />
+    <property name="spec.vendor" value="Grigoriev and Vasiliev" />
+    <property name="ant.library.dir" value="/Applications/IntelliJ IDEA.app/Contents/lib/ant/lib" />
+    <property name="java.awt.printerjob" value="apple.awt.CPrinterJob" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="awt.toolkit" value="apple.awt.CToolkit" />
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="user.home" value="/Users/thepowerfuldeez" />
+    <property name="java.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="java.library.path" value=".:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java" />
+    <property name="java.vendor.url" value="http://www.apple.com/" />
+    <property name="java.vm.vendor" value="Apple Inc." />
+    <property name="gopherProxySet" value="false" />
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner Lab3Test skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/reports/TEST-Lab3Test.xml crashfile=/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/junitvmwatcher8781731375423157249.properties propsfile=/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/junit8515486896851141507.properties" />
+    <property name="java.class.path" value="/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/lib/junit-4.12.jar:/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/lib/hamcrest-core-1.3.jar:/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/build/classes:/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/build/tests:/Applications/IntelliJ IDEA.app/Contents/lib/ant/lib/ant-launcher.jar:/Applications/IntelliJ IDEA.app/Contents/lib/ant/lib/ant.jar:/Applications/IntelliJ IDEA.app/Contents/lib/ant/lib/ant-junit.jar:/Applications/IntelliJ IDEA.app/Contents/lib/ant/lib/ant-junit4.jar" />
+    <property name="ant.version" value="Apache Ant(TM) version 1.9.4 compiled on April 29 2014" />
+    <property name="project.name" value="lab3" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="ant.file.type" value="file" />
+    <property name="java.vm.specification.version" value="1.0" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="sun.os.patch.level" value="unknown" />
+    <property name="java.io.tmpdir" value="/var/folders/3r/fkrf5gys1r35kp6wk9y628mm0000gn/T/" />
+    <property name="java.vendor.url.bug" value="http://bugreport.apple.com/" />
+    <property name="ant.file.lab3" value="/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn/build.xml" />
+    <property name="impl.version" value="1.0.0" />
+    <property name="os.arch" value="x86_64" />
+    <property name="java.awt.graphicsenv" value="apple.awt.CGraphicsEnvironment" />
+    <property name="ant.file.type.lab3" value="file" />
+    <property name="java.ext.dirs" value="/Library/Java/Extensions:/System/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext" />
+    <property name="user.dir" value="/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn" />
+    <property name="mrj.version" value="1070.1.6.0_65-468" />
+    <property name="line.separator" value="&#xa;" />
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM" />
+    <property name="basedir" value="/Users/thepowerfuldeez/Dropbox/Study/ifmo_labworks/opi_2sem/3_mvn" />
+    <property name="ant.java.version" value="1.6" />
+    <property name="ant.core.lib" value="/Applications/IntelliJ IDEA.app/Contents/lib/ant/lib/ant.jar" />
+    <property name="file.encoding" value="MacRoman" />
+    <property name="java.specification.version" value="1.6" />
+    <property name="src.dir" value="src" />
+    <property name="ant.project.invoked-targets" value="test" />
+  </properties>
+  <testcase classname="Lab3Test" name="testLab3[0]" time="0.026">
+    <failure message="Check input 0 expected:&lt;...ined area are:&#xa;  {-5[,0; -5,0}&#xa;  {4,0; 4,0}&#xa;  {-1,0; -1,0}&#xa;  {2,0; 1,0}&#xa;  {4,0; -4,0}&#xa;  {-5,0; 3,0}&#xa;  {2,0; -1,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; -5.0}&#xa;  {4.0; 4.0}&#xa;  {-1.0; -1.0}&#xa;  {2.0; 1.0}&#xa;  {4.0; -4.0}&#xa;  {-5.0; 3.0}&#xa;  {2.0; -1.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 0 expected:&lt;...ined area are:
+  {-5[,0; -5,0}
+  {4,0; 4,0}
+  {-1,0; -1,0}
+  {2,0; 1,0}
+  {4,0; -4,0}
+  {-5,0; 3,0}
+  {2,0; -1,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; -5.0}
+  {4.0; 4.0}
+  {-1.0; -1.0}
+  {2.0; 1.0}
+  {4.0; -4.0}
+  {-5.0; 3.0}
+  {2.0; -1.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[1]" time="0.0070">
+    <failure message="Check input 0.5 expected:&lt;...ined area are:&#xa;  {-5[,0; -5,0}&#xa;  {4,0; 4,0}&#xa;  {-1,0; -1,0}&#xa;  {2,0; 1,0}&#xa;  {4,0; -4,0}&#xa;  {-5,0; 3,0}&#xa;  {2,0; -1,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; -5.0}&#xa;  {4.0; 4.0}&#xa;  {-1.0; -1.0}&#xa;  {2.0; 1.0}&#xa;  {4.0; -4.0}&#xa;  {-5.0; 3.0}&#xa;  {2.0; -1.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 0.5 expected:&lt;...ined area are:
+  {-5[,0; -5,0}
+  {4,0; 4,0}
+  {-1,0; -1,0}
+  {2,0; 1,0}
+  {4,0; -4,0}
+  {-5,0; 3,0}
+  {2,0; -1,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; -5.0}
+  {4.0; 4.0}
+  {-1.0; -1.0}
+  {2.0; 1.0}
+  {4.0; -4.0}
+  {-5.0; 3.0}
+  {2.0; -1.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[2]" time="0.0070">
+    <failure message="Check input 2 expected:&lt;...ined area are:&#xa;  {-5[,0; -5,0}&#xa;  {4,0; 4,0}&#xa;  {2,0; 1,0}&#xa;  {4,0; -4,0}&#xa;  {-5,0; 3,0}&#xa;  {2,0; -1,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; -5.0}&#xa;  {4.0; 4.0}&#xa;  {2.0; 1.0}&#xa;  {4.0; -4.0}&#xa;  {-5.0; 3.0}&#xa;  {2.0; -1.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 2 expected:&lt;...ined area are:
+  {-5[,0; -5,0}
+  {4,0; 4,0}
+  {2,0; 1,0}
+  {4,0; -4,0}
+  {-5,0; 3,0}
+  {2,0; -1,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; -5.0}
+  {4.0; 4.0}
+  {2.0; 1.0}
+  {4.0; -4.0}
+  {-5.0; 3.0}
+  {2.0; -1.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[3]" time="0.037">
+    <failure message="Check input 4 expected:&lt;...ined area are:&#xa;  {-5[,0; -5,0}&#xa;  {4,0; 4,0}&#xa;  {4,0; -4,0}&#xa;  {-5,0; 3,0}&#xa;  {2,0; -1,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; -5.0}&#xa;  {4.0; 4.0}&#xa;  {4.0; -4.0}&#xa;  {-5.0; 3.0}&#xa;  {2.0; -1.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 4 expected:&lt;...ined area are:
+  {-5[,0; -5,0}
+  {4,0; 4,0}
+  {4,0; -4,0}
+  {-5,0; 3,0}
+  {2,0; -1,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; -5.0}
+  {4.0; 4.0}
+  {4.0; -4.0}
+  {-5.0; 3.0}
+  {2.0; -1.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[4]" time="0.024">
+    <failure message="Check input 4.48 expected:&lt;...ined area are:&#xa;  {-5[,0; -5,0}&#xa;  {4,0; 4,0}&#xa;  {4,0; -4,0}&#xa;  {-5,0; 3,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; -5.0}&#xa;  {4.0; 4.0}&#xa;  {4.0; -4.0}&#xa;  {-5.0; 3.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 4.48 expected:&lt;...ined area are:
+  {-5[,0; -5,0}
+  {4,0; 4,0}
+  {4,0; -4,0}
+  {-5,0; 3,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; -5.0}
+  {4.0; 4.0}
+  {4.0; -4.0}
+  {-5.0; 3.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[5]" time="0.0060">
+    <failure message="Check input 8 expected:&lt;...ined area are:&#xa;  {-5[,0; -5,0}&#xa;  {4,0; -4,0}&#xa;  {-5,0; 3,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; -5.0}&#xa;  {4.0; -4.0}&#xa;  {-5.0; 3.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 8 expected:&lt;...ined area are:
+  {-5[,0; -5,0}
+  {4,0; -4,0}
+  {-5,0; 3,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; -5.0}
+  {4.0; -4.0}
+  {-5.0; 3.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[6]" time="0.0050">
+    <failure message="Check input 10 expected:&lt;...fined area are:&#xa;  {4[,0; -4,0}&#xa;  {-5,0; 3,]0}&#xa;&gt; but was:&lt;...fined area are:&#xa;  {4[.0; -4.0}&#xa;  {-5.0; 3.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 10 expected:&lt;...fined area are:
+  {4[,0; -4,0}
+  {-5,0; 3,]0}
+&gt; but was:&lt;...fined area are:
+  {4[.0; -4.0}
+  {-5.0; 3.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[7]" time="0.013">
+    <failure message="Check input 11.32 expected:&lt;...ined area are:&#xa;  {-5[,0; 3,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; 3.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 11.32 expected:&lt;...ined area are:
+  {-5[,0; 3,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; 3.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[8]" time="0.0030">
+    <failure message="Check input 12 expected:&lt;...ined area are:&#xa;  {-5[,0; 3,]0}&#xa;&gt; but was:&lt;...ined area are:&#xa;  {-5[.0; 3.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input 12 expected:&lt;...ined area are:
+  {-5[,0; 3,]0}
+&gt; but was:&lt;...ined area are:
+  {-5[.0; 3.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[9]" time="0.0050">
+    <failure message="Check input fwef&#xa;12 expected:&lt;Enter a number: E[ntered string is not a number, try again.&#xa;Enter a number: Points not included in the defined area are:&#xa;  {-5,0; 3,]0}&#xa;&gt; but was:&lt;Enter a number: E[tered string is not a number, try again.&#xa;Enter a number: Points not included in the defined area are:&#xa;  {-5.0; 3.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input fwef
+12 expected:&lt;Enter a number: E[ntered string is not a number, try again.
+Enter a number: Points not included in the defined area are:
+  {-5,0; 3,]0}
+&gt; but was:&lt;Enter a number: E[tered string is not a number, try again.
+Enter a number: Points not included in the defined area are:
+  {-5.0; 3.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <testcase classname="Lab3Test" name="testLab3[10]" time="0.017">
+    <failure message="Check input -1&#xa;12 expected:&lt;Enter a number: [Radius cant&apos;t be negative, try again.&#xa; Enter a number: Points not included in the defined area are:&#xa;  {-5,0; 3,]0}&#xa;&gt; but was:&lt;Enter a number: [Points not included in the defined area are:&#xa;  {-5.0; -5.0}&#xa;  {4.0; 4.0}&#xa;  {-1.0; -1.0}&#xa;  {2.0; 1.0}&#xa;  {4.0; -4.0}&#xa;  {-5.0; 3.0}&#xa;  {2.0; -1.]0}&#xa;&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Check input -1
+12 expected:&lt;Enter a number: [Radius cant&apos;t be negative, try again.
+ Enter a number: Points not included in the defined area are:
+  {-5,0; 3,]0}
+&gt; but was:&lt;Enter a number: [Points not included in the defined area are:
+  {-5.0; -5.0}
+  {4.0; 4.0}
+  {-1.0; -1.0}
+  {2.0; 1.0}
+  {4.0; -4.0}
+  {-5.0; 3.0}
+  {2.0; -1.]0}
+&gt;
+	at Lab3Test.testLab3(Unknown Source)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

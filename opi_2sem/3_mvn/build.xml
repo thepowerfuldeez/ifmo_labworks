@@ -1,0 +1,90 @@
+<project name="lab3" default="build" basedir=".">
+
+    <property file="build.properties"/>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="doc"/>
+        <delete dir="reports"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.dir}/classes"/>
+        <javac srcdir="${src.dir}"
+               destdir="${build.dir}/classes"
+               excludes="tests/*"
+               includeAntRuntime="false">
+        </javac>
+    </target>
+
+    <target name="build" depends="compile">
+        <mkdir dir="${build.dir}/jar"/>
+        <jar destfile="${build.dir}/jar/${project.name}.jar" basedir="${build.dir}/classes">
+
+            <manifest>
+                <attribute name="Main-Class" value="lab3.Lab3"/>
+
+                <section name="${project.name}">
+                    <attribute name="Specification-Title" value="${spec.title}"/>
+                    <attribute name="Specification-Vendor" value="${spec.vendor}"/>
+                    <attribute name="Specification-Version" value="${spec.version}"/>
+                    <attribute name="Implementation-Name" value="${impl.tile}"/>
+                    <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+                    <attribute name="Implementation-Version" value="${impl.version}"/>
+                </section>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="doc" depends="build">
+        <mkdir dir="doc"/>
+        <javadoc destdir="${doc.dir}">
+            <doctitle><![CDATA[<h1>Test</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2000 Dummy Corp. All Rights Reserved.</i>]]></bottom>
+            <link offline="true" href="https://docs.oracle.com/javase/8/docs/api/" packagelistLoc="C:\tmp"/>
+            <link href="https://docs.oracle.com/javase/8/docs/api/"/>
+            <fileset dir="${src.dir}"/>
+        </javadoc>
+        <checksum file="${build.dir}/jar/${project.name}.jar" algorithm="md5" property="checksum.jar.md5"/>
+        <checksum file="${build.dir}/jar/${project.name}.jar" algorithm="sha1" property="checksum.jar.sha1"/>
+        <echo message="${checksum.jar.md5} *${build.dir}/jar/${project.name}.jar"
+              file="${build.dir}/jar/${project.name}.jar.md5"/>
+        <echo message="${checksum.jar.sha1} *${build.dir}/jar/${project.name}.jar"
+              file="${build.dir}/jar/${project.name}.jar.sha1"/>
+    </target>
+
+    <path id="classpath.test">
+        <pathelement location="lib/junit-4.12.jar"/>
+        <pathelement location="lib/hamcrest-core-1.3.jar"/>
+        <pathelement location="${build.dir}/classes"/>
+    </path>
+
+    <target name="test" depends="build">
+        <mkdir dir="${build.dir}/tests"/>
+        <mkdir dir="${prj.dir}/reports"/>
+        <javac srcdir="${src.dir}/tests" destdir="${build.dir}/tests" includeAntRuntime="false">
+            <classpath refid="classpath.test"/>
+        </javac>
+
+        <junit printsummary="on" haltonfailure="yes" fork="true">
+            <classpath>
+                <path refid="classpath.test"/>
+                <pathelement location="${build.dir}/tests"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="reports">
+                <fileset dir="${src.dir}/tests" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="report" depends="test">
+        <junitreport todir="reports">
+            <fileset dir="reports">
+                <include name="TEST-*.xml"/>
+            </fileset>
+        </junitreport>
+    </target>
+
+
+</project>
