@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RpcCommand xmlns="RapidNavigator.Index.Interaction.Entities">
+  <Call CallId="123">
+    <RemoteInstanceId>
+      <Value>keyvaluestr</Value>
+    </RemoteInstanceId>
+    <MethodId DeclaringTypeName="asdf" MetadataToken="3" MethodName="asdf" />
+    <Arguments>
+      <Value>
+        <Instance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QueryParametersInfoType">
+          <EntitiesFilter>
+            <And Invert="true">
+              <HavingNameAndKind Name="lala" Kind="*" Invert="false"/>
+              <HavingRelation Kind="parent" Invert="false">
+                <WithEntity>
+                  <HavingNameAndKind Name="dada" Kind="*" Invert="false"/>
+                </WithEntity>
+              </HavingRelation>
+            </And>
+          </EntitiesFilter>
+        </Instance>
+      </Value>
+      <Value>
+        <String>sdf</String>
+      </Value>
+    </Arguments>
+  </Call>
+</RpcCommand>
