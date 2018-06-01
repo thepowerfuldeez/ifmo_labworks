@@ -66,7 +66,7 @@
             <classpath refid="classpath.test"/>
         </javac>
 
-        <junit printsummary="on" haltonfailure="yes" fork="true">
+        <junit printsummary="on" haltonfailure="no" fork="true">
             <classpath>
                 <path refid="classpath.test"/>
                 <pathelement location="${build.dir}/tests"/>
@@ -84,6 +84,13 @@
                 <include name="TEST-*.xml"/>
             </fileset>
         </junitreport>
+        <exec executable="/opt/csw/bin/git">
+            <arg value="add"/>
+            <arg value="reports/*"/>
+        </exec>
+        <exec executable="/opt/csw/bin/git">
+            <arg line="commit -m privet"/>
+        </exec>
     </target>
 
 
