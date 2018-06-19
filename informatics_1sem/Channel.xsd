@@ -6,7 +6,7 @@
     xmlns:mstns="EventsGraphNavigator.Interaction.Channel"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">-->
 
-<xs:schema id="EventsGraphNavigator.Interaction.Channel"
+<xs:schema id="RapidNavigator.Index.Interaction.Channel"
     elementFormDefault="qualified"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -135,8 +135,17 @@
             <xs:element name="String" type="string" />
             <xs:element name="Int32" type="int" />
             <xs:element name="Boolean" type="bool" />
+            <xs:element name="Guid" type="GuidType" />
           </xs:choice>
         </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GuidType">
+    <xs:complexContent>
+      <xs:extension base="RpcBaseType">
+        <xs:attribute name="Value" type="GuidString" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -187,5 +196,11 @@
   <xs:simpleType name="int">
     <xs:restriction base="xs:int" />
   </xs:simpleType>
-  
+
+  <xs:simpleType name="GuidString">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\})"/>
+    </xs:restriction>
+  </xs:simpleType>
+
 </xs:schema>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RpcCommand xmlns="EventsGraphNavigator.Interaction.Entities">
+    <Call CallId="123">
+        <RemoteInstanceId>
+            <Value>keyvaluestr</Value>
+        </RemoteInstanceId>
+        <MethodId DeclaringTypeName="asdf" MetadataToken="3" MethodName="asdf"/>
+        <Arguments>
+            <Value>
+                <Instance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LogMessagesCustomQueryInfoType"
+                          Name="myquery">
+                    <IncludeObsoleteSources>true</IncludeObsoleteSources>
+                    <Model>
+                        <All>
+                            <MessageHasTagInstance>
+                                <Where>
+                                    <PatternNameContains>
+                                        <Text MatchWholeWord="true" MatchCase="false" MatchingMode="String">
+                                            <Pattern>session-id</Pattern>
+                                        </Text>
+                                    </PatternNameContains>
+                                </Where>
+                            </MessageHasTagInstance>
+                            <MessageHasTagInstance>
+                                <Where>
+                                    <TagInstanceHasKey>
+                                        <Where>
+                                            <ValueContains>
+                                                <Text MatchWholeWord="true" MatchCase="false" MatchingMode="String">
+                                                    <Pattern>123</Pattern>
+                                                </Text>
+                                            </ValueContains>
+                                        </Where>
+                                    </TagInstanceHasKey>
+                                </Where>
+                            </MessageHasTagInstance>
+                            <!--<MessageHasTagInstance>-->
+                                <!--<Where>-->
+                                    <!--<TagInstanceIsInMessage>-->
+                                        <!--<Where>-->
+                                            <!--<MessageHasTagInstance>-->
+                                                <!--<Where>-->
+                                                    <!--<TagInstanceHasKey>-->
+                                                        <!--<Where>-->
+                                                            <!--<ValueContains>-->
+                                                                <!--<Text MatchWholeWord="" MatchCase="" MatchingMode="">-->
+                                                                    <!--<Pattern>GUID</Pattern>-->
+                                                                <!--</Text>-->
+                                                            <!--</ValueContains>-->
+                                                        <!--</Where>-->
+                                                    <!--</TagInstanceHasKey>-->
+                                                <!--</Where>-->
+                                            <!--</MessageHasTagInstance>-->
+                                        <!--</Where>-->
+                                    <!--</TagInstanceIsInMessage>-->
+                                <!--</Where>-->
+                            <!--</MessageHasTagInstance>-->
+                        </All>
+                    </Model>
+                </Instance>
+            </Value>
+            <Value>
+                <String>sdf</String>
+            </Value>
+        </Arguments>
+    </Call>
+</RpcCommand>

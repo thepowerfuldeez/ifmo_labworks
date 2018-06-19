@@ -1,28 +1,7 @@
 <?xml version="1.0"?>
 <RpcCommand xmlns="EventsGraphNavigator.Interaction.Entities"
             xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-    <Item i:type="a:RpcResultCommandInfoType" xmlns:a="EventsGraphNavigator.Interaction">
-        <CallId>0</CallId>
-        <Exception i:nil="true"/>
-        <OutArguments>
-            <Items/>
-        </OutArguments>
-        <ReturnValue>
-            <Item i:type="a:RpcRemoteObjectReferenceInfoType">
-                <InterfaceTypes>
-                    <Items xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-                        <b:string>EventsGraphNavigator.Interaction.IEventsGraphService,
-                            EventsGraphNavigator.Interaction, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-                        </b:string>
-                        <b:string>System.IDisposable, mscorlib, Version=4.0.0.0, Culture=neutral,
-                            PublicKeyToken=b77a5c561934e089
-                        </b:string>
-                    </Items>
-                </InterfaceTypes>
-                <RemoteInstanceId>
-                    <Value>1</Value>
-                </RemoteInstanceId>
-            </Item>
-        </ReturnValue>
-    </Item>
+   <Call CallId="324">
+       <MethodId DeclaringTypeName="sdfg" MethodName="" MetadataToken=""></MethodId>
+   </Call>
 </RpcCommand>
