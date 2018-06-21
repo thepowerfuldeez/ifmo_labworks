@@ -1,56 +1,114 @@
-from sympy.physics.vector import ReferenceFrame
-from sympy.physics.vector import curl, divergence
-from sympy.physics.mechanics import cross
-import matplotlib.pyplot as plt
 import numpy as np
-import sympy as sm
+import matplotlib.pyplot as plt
+# import sympy
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 
-R = ReferenceFrame('R')
-
-
-def vector_mul(a, b):
-    return cross(a, b)
-
-
-def div(a):
-    return divergence(a, R)
+# Производные решать с использованием машинного обучения, функция задается пользователем руками,
+# функции линейные и нелинейные. Плюс, строить график производной и сопоставить с реальным значением.
 
 
-def rot(a):
-    return curl(a, R)
+def numeric_deriv(f, x, h=0.00001):
+    """Посчитать численно производную ф-ции f на x"""
+
+    fx = f(x)  # значение в оригинальной точке
+    fxph = f(x + h)  # значение в x + h
+    fxmh = f(x - h)  # значение в x - h
+    grad = (fxph - fxmh) / (2 * h)  # производная
+    return grad
 
 
-if __name__ == '__main__':
-    # базис пространства
-    R = ReferenceFrame('R')
+def predict_deriv(X_train, y_train, x):
+    """
+    Линейная регрессия для предсказания производной
+    :param f – функция
+    :param X_train – данные для обучения (области X)
+    :param y_train – известные ответы производной f для X_train
+    :param x – данные, для которых надо предсказать зн. производной
 
-    # (y^2*z,-xy,z^3) – вектор, функции в координатах
-    a = R[1] ** 2 * R[2] * R.x - R[0] * R[1] * R.y + R[2] ** 3 * R.z
-    # (x^2*z,-xy,z)
-    b = R[0] ** 2 * R[2] * R.x - R[0] * R[1] * R.y + R[2] * R.z
-    # (y*z,-xy,xy)
-    c = R[1] * R[2] * R.x - R[0] * R[1] * R.y + R[0] * R[1] * R.z
+    :returns предсказания для x
+    """
+    lr = LinearRegression()  # инициализация модели
+    lr.fit(X_train.reshape(-1, 1), y_train)
+    return lr.predict(x.reshape(-1, 1))
 
-    # [a, b] x rot(C)
-    res1 = cross(a, b).dot(rot(c))
-    res1 = res1.expand().simplify()
 
-    # b x (div A) * c - a x (div B) * c
-    res2 = b.dot(div(a) * c) - a.dot(div(b) * c)
-    res2 = res2.expand().simplify()
+def predict_deriv_poly(X_train, y_train, x, p=3):
+    """
+    Полиномиальная регрессия для предсказания производной
+    :param f – функция
+    :param X_train – данные для обучения (области X)
+    :param y_train – известные ответы производной f для X_train
+    :param x – данные, для которых надо предсказать зн. производной
+    :param p – степень полинома (большая ведет к переобучению)
 
-    # выражения, которые получились
-    print(res1.evalf(subs={"R_x": 1, "R_y": 1, "R_z": 1}),
-          res2.evalf(subs={"R_x": 1, "R_y": 1, "R_z": 1}))
+    :returns предсказания для x
+    """
 
-    # составление python функций из выражения
-    f1 = sm.lambdify(res1.free_symbols, res1, "numpy")
-    f2 = sm.lambdify(res2.free_symbols, res2, "numpy")
+    def gen_poly(x):
+        # новый массив, в котором содержатся степени исходного
+        # массива от 0 до p-1
+        return np.array([np.power(x, i) for i in range(p)]).T
+    X_poly = gen_poly(X_train)
 
-    # генерация данных
-    X = np.arange(-5, 5, 0.25)
-    Y = np.arange(-5, 5, 0.25)
-    Z = np.arange(-5, 5, 0.25)
+    # инициализация модели
+    lr = LinearRegression().fit(X_poly, y_train)
+    return lr.predict(gen_poly(x))
 
-    # разница значений функций
-    print(f1(X, Y, Z) - f2(X, Y, Z))
+
+# ЛИНЕЙНАЯ РЕГРЕССИЯ
+# может улавливать только линейные зависимости,
+# поэтому в примере производная x^2
+
+def linear(f):
+    # определим X
+    lp = np.linspace(-2, 2)
+
+    # посчитаем настоящий градиент
+    grad = [numeric_deriv(f, x) for x in lp]
+
+    # предсказания для этого градиента
+    predicted_grad = predict_deriv(lp, grad, lp)
+
+    plt.plot(lp, grad, label='actual')
+    plt.plot(lp, predicted_grad, label='predicted')
+    plt.legend()
+    plt.show()
+    print(f"MSE: {mean_squared_error(grad, predicted_grad)}")
+
+
+# ПОЛИНОМИАЛЬНАЯ РЕГРЕССИЯ
+
+def polynomial(f, p=3):
+    # определим X
+    lp = np.linspace(-2, 2)
+
+    # посчитаем настоящий градиент
+    grad = [numeric_deriv(f, x) for x in lp]
+
+    # предсказания для этого градиента
+    # регулируя p можно улучшать модель
+    predicted_grad = predict_deriv_poly(lp, grad, lp, p)
+
+    plt.plot(lp, grad, label='actual')
+    plt.plot(lp, predicted_grad, label='predicted')
+    plt.legend()
+    plt.show()
+    print(f"MSE: {mean_squared_error(grad, predicted_grad)}")
+
+
+if __name__ == "__main__":
+    # пусть задана функция x^2
+    f = lambda x: x ** 2
+    linear(f)
+    # пусть задана функция x^3
+    f = lambda x: x ** 2 + 3 * x ** 3
+    linear(f)
+
+    # пусть задана функция x^5
+    f = lambda x: x ** 5
+    polynomial(f)
+    # пусть задана функция x^5
+    f = lambda x: x ** 6 + np.log(x+2.1)
+    polynomial(f, 5)
+
