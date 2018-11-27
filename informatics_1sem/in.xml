@@ -7,22 +7,19 @@
         <MethodId DeclaringTypeName="asdf" MetadataToken="3" MethodName="asdf"/>
         <Arguments>
             <Value>
-                <Instance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LogMessagesCustomQueryInfoType"
+                <Instance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:type="LogMessagesCustomQueryInfoType"
                           Name="myquery">
                     <IncludeObsoleteSources>true</IncludeObsoleteSources>
                     <Model>
-                        <All>
-                            <MessageHasTagInstance>
-                                <Where>
+                        <MessageHasTagInstance>
+                            <Where>
+                                <All>
                                     <PatternNameContains>
                                         <Text MatchWholeWord="true" MatchCase="false" MatchingMode="String">
                                             <Pattern>session-id</Pattern>
                                         </Text>
                                     </PatternNameContains>
-                                </Where>
-                            </MessageHasTagInstance>
-                            <MessageHasTagInstance>
-                                <Where>
                                     <TagInstanceHasKey>
                                         <Where>
                                             <ValueContains>
@@ -32,30 +29,9 @@
                                             </ValueContains>
                                         </Where>
                                     </TagInstanceHasKey>
-                                </Where>
-                            </MessageHasTagInstance>
-                            <!--<MessageHasTagInstance>-->
-                                <!--<Where>-->
-                                    <!--<TagInstanceIsInMessage>-->
-                                        <!--<Where>-->
-                                            <!--<MessageHasTagInstance>-->
-                                                <!--<Where>-->
-                                                    <!--<TagInstanceHasKey>-->
-                                                        <!--<Where>-->
-                                                            <!--<ValueContains>-->
-                                                                <!--<Text MatchWholeWord="" MatchCase="" MatchingMode="">-->
-                                                                    <!--<Pattern>GUID</Pattern>-->
-                                                                <!--</Text>-->
-                                                            <!--</ValueContains>-->
-                                                        <!--</Where>-->
-                                                    <!--</TagInstanceHasKey>-->
-                                                <!--</Where>-->
-                                            <!--</MessageHasTagInstance>-->
-                                        <!--</Where>-->
-                                    <!--</TagInstanceIsInMessage>-->
-                                <!--</Where>-->
-                            <!--</MessageHasTagInstance>-->
-                        </All>
+                                </All>
+                            </Where>
+                        </MessageHasTagInstance>
                     </Model>
                 </Instance>
             </Value>

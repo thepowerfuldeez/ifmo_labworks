@@ -1,31 +1,25 @@
-from itertools import combinations
-
-def check(a, r):
-	print(f"checking {r}")
-	if not a:
-		return True, None
-	for set1 in combinations(a.keys(), r):
-		for set2 in combinations(a.values(), r):
-			if set(list(set1)) == set(list(set2)):
-				return True, set1
-	return False, None
+def check(a):
+    v = set(list(a.values()))
+    r = 0
+    res_set = set()
+    for k in a:
+        if k in v:
+            v.remove(k)
+            res_set.add(k)
+            r += 1
+    return res_set, r
 
 
 if __name__ == '__main__':
-	n = int(input())
-	a = {}
-	for _ in range(n):
-		k, v = map(int, input().split())
-		a[k] = v
-	r = 0
-	cond, set1 = check(a, r)
-	while cond:
-		res_set = set1
-		cond, set1 = check(a, r)
-		if cond:
-			r += 1
-	print(r)
-	print(*res_set, sep='\n')
+    n = int(input())
+    a = {}
+    for _ in range(n):
+        k, v = map(int, input().split())
+        a[k] = v
+
+    res_set, r = check(a)
+    print(r)
+    print(*res_set, sep='\n')
 
 """
 20

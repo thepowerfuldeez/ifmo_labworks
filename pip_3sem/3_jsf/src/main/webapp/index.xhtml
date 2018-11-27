@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+>
+<h:head>
+    <title>IAD Lab#3</title>
+    <link href="${facesContext.externalContext.requestContextPath}/css/main.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${facesContext.externalContext.requestContextPath}/js/clock.js"/>
+</h:head>
+<h:body onload="updateClock(); setInterval('updateClock()', 9000 )">
+    <header>
+        <table id="credentials-table">
+            <tr>
+                <th scope="row">Authors</th>
+                <td lang="ru-RU">Gorbunov Mikhail and Mazunin Konstantin</td>
+            </tr>
+            <tr>
+                <th scope="row">Group</th>
+                <td>P3217</td>
+            </tr>
+            <tr>
+                <th scope="row">Var.</th>
+                <td>791</td>
+            </tr>
+        </table>
+    </header>
+    <div id="clock"/>
+    <h:link outcome="basePage">BasePage</h:link>
+</h:body>
+</html>
+

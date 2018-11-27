@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+    <title>IAD Lab#3</title>
+</h:head>
+<body>
+<canvas width="500" height="500" id="plotCanvas"/>
+<script type="text/javascript" src="${facesContext.externalContext.requestContextPath}/js/plot.js"/>
+<script type="text/javascript">
+    window.onload = function () {
+        invalidatePlot();
+    };
+
+    function getSelectedVal(selector) {
+        return selector.options[selector.selectedIndex].value;
+    }
+</script>
+<br/>
+<h:form>
+    <p:panel id="panel" header="Check">
+        <h:panelGrid id="grid" columns="3" cellpadding="5">
+            <p:outputLabel for="xValue" value="X:" style="font-weight:bold"/>
+            <h:outputText id="xValue" value="#{pointBean.x}"/>
+            <p:commandButton actionListener="#{pointBean.incrementX}" value="+1" update="xValue"/>
+
+            <p:outputLabel for="yInput" value="Y:" style="font-weight:bold"/>
+            <p:inputText value="#{pointBean.y}" id="yInput" required="true">
+                <f:validator validatorId="ru.ifmo.DoubleRangeValidator"/>
+                <!-- <p:ajax update="yInputMessage" event="keyup" />-->
+            </p:inputText>
+            <p:message id="yInputMessage" for="yInput"/>
+
+            <p:outputLabel for="rInput" value="R:" style="font-weight:bold"/>
+            <p:selectOneMenu id="rInput" value="#{pointBean.r}" required="true"
+                             onchange="invalidatePlot();">
+                <f:selectItem itemValue="1" itemLabel="1"/>
+                <f:selectItem itemValue="2" itemLabel="2"/>
+                <f:selectItem itemValue="3" itemLabel="3"/>
+                <f:selectItem itemValue="4" itemLabel="4"/>
+                <f:selectItem itemValue="5" itemLabel="5"/>
+            </p:selectOneMenu>
+            <p:message for="rInput"/>
+
+            <p:commandButton update="panel, pointTable" ajax="true" value="submit" type="submit"
+                             action="#{pointBean.checkHit}"/>
+        </h:panelGrid>
+    </p:panel>
+
+    <pe:remoteCommand name="sendPoint" update="pointTable" actionListener="#{plotBean.checkPoint}">
+        <pe:methodSignature parameters="java.lang.Double, java.lang.Double"/>
+        <pe:methodParam name="x">
+            <f:convertNumber/>
+        </pe:methodParam>
+        <pe:methodParam name="y">
+            <f:convertNumber/>
+        </pe:methodParam>
+    </pe:remoteCommand>
+    <p:remoteCommand name="invalidatePlot" actionListener="#{plotBean.renderPlot}" />
+</h:form>
+<p:dataTable id="pointTable" var="point" value="#{pointListBean.points}">
+    <p:column headerText="X">
+        <h:outputText value="#{point.x}">
+            <f:convertNumber pattern="#0.000" locale="pt_BR"/>
+        </h:outputText>
+    </p:column>
+
+    <p:column headerText="Y">
+        <h:outputText value="#{point.y}">
+            <f:convertNumber pattern="#0.000" locale="pt_BR"/>
+        </h:outputText>
+    </p:column>
+
+    <p:column headerText="R">
+        <h:outputText value="#{point.r}"/>
+    </p:column>
+
+    <p:column headerText="InArea">
+        <h:outputText value="#{point.inArea}"/>
+    </p:column>
+</p:dataTable>
+<p:link outcome="index">StartPage</p:link>
+</body>
+</html>
