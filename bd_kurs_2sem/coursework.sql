@@ -69,66 +69,66 @@ create index subway
   on Метро
   using btree (Ид_ветка);
 
-create or replace function update_evolve()
-  returns trigger as $$
-declare
-  home_id   integer;
-  subway_id integer;
-  region_id integer;
-begin
-  home_id = new.Ид_дома;
-  select Ид_дома
-  into subway_id
-  from Дом_локация
-  where Ид_дома = home_id;
-  if ((select Ид_дома
-       from Дом
-       where ИД = new.Эволюция)
-      > (select Стадия
-         from Эволюция
-         where ИД = old.Эволюция))
-  then
-    update Покемоны
-    set Имя = (select Название
-               from Эволюция
-               where ИД = new.Эволюция)
-    where ИД = home_id;
-    select ИД
-    into region_id
-    from Способности
-    where Урон > (select Урон
-                  from Способности
-                  where ИД = subway_id
-                  order by Урон)
-    limit 1;
-    delete from Покемон_способности
-    where Покемон_ИД = home_id;
-    insert into Покемон_способности values (home_id, region_id);
-  else update Покемоны
-  set Имя = (select Название
-             from Эволюция
-             where ИД = new.Эволюция)
-  where ИД = home_id;
-    select ИД
-    into region_id
-    from Способности
-    where Урон < (select Урон
-                  from Способности
-                  where ИД = subway_id
-                  order by Урон)
-    limit 1;
-    delete from Покемон_способности
-    where Покемон_ИД = home_id;
-    insert into Покемон_способности values (home_id, region_id);
-  end if;
-  return null;
-end;
-$$
-language plpgsql;
-
-create trigger check_evolve
-  after update
-  on Покемоны
-  for each row
-  when (new.Эволюция != old.Эволюция)
-execute procedure update_evolve();
+-- create or replace function update_evolve()
+--   returns trigger as $$
+-- declare
+--   home_id   integer;
+--   subway_id integer;
+--   region_id integer;
+-- begin
+--   home_id = new.Ид_дома;
+--   select Ид_дома
+--   into subway_id
+--   from Дом_локация
+--   where Ид_дома = home_id;
+--   if ((select Ид_дома
+--        from Дом
+--        where ИД = new.Эволюция)
+--       > (select Стадия
+--          from Эволюция
+--          where ИД = old.Эволюция))
+--   then
+--     update Покемоны
+--     set Имя = (select Название
+--                from Эволюция
+--                where ИД = new.Эволюция)
+--     where ИД = home_id;
+--     select ИД
+--     into region_id
+--     from Способности
+--     where Урон > (select Урон
+--                   from Способности
+--                   where ИД = subway_id
+--                   order by Урон)
+--     limit 1;
+--     delete from Покемон_способности
+--     where Покемон_ИД = home_id;
+--     insert into Покемон_способности values (home_id, region_id);
+--   else update Покемоны
+--   set Имя = (select Название
+--              from Эволюция
+--              where ИД = new.Эволюция)
+--   where ИД = home_id;
+--     select ИД
+--     into region_id
+--     from Способности
+--     where Урон < (select Урон
+--                   from Способности
+--                   where ИД = subway_id
+--                   order by Урон)
+--     limit 1;
+--     delete from Покемон_способности
+--     where Покемон_ИД = home_id;
+--     insert into Покемон_способности values (home_id, region_id);
+--   end if;
+--   return null;
+-- end;
+-- $$
+-- language plpgsql;
+--
+-- create trigger check_evolve
+--   after update
+--   on Покемоны
+--   for each row
+--   when (new.Эволюция != old.Эволюция)
+-- execute procedure update_evolve();
