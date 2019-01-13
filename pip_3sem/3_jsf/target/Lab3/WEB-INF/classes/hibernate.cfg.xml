@@ -8,6 +8,7 @@
         <property name="connection.url">jdbc:oracle:thin:@localhost:1521:orbis</property>
         <property name="hibernate.connection.username">s257847</property>
         <property name="connection.password">ina914</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="ru.ifmo.lab3.database.ResultEntity"/>
     </session-factory>
 </hibernate-configuration>

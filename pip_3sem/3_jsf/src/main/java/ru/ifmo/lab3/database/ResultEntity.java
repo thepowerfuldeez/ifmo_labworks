@@ -1,5 +1,7 @@
 package ru.ifmo.lab3.database;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -17,10 +19,14 @@ public class ResultEntity implements Serializable {
         this.included = included;
     }
 
+//    @Id
+//    @SequenceGenerator(name = "SEQ", sequenceName = "Results_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
+//    @Column(name = "ID")
     @Id
-    @SequenceGenerator(name = "SEQ", sequenceName = "Results_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
-    @Column(name = "ID")
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "id")
     private long id;
 
     @Basic

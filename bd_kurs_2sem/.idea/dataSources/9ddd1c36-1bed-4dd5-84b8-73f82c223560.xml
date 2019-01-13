@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="PostgreSQL - postgres@localhost">
-  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.9">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.11">
     <root id="1">
       <ServerVersion>9.6.1</ServerVersion>
     </root>
     <database id="2" parent="1" name="postgres">
       <ObjectId>12401</ObjectId>
       <Comment>default administrative connection database</Comment>
+      <Owner>postgres</Owner>
     </database>
     <database id="3" parent="1" name="studs">
       <ObjectId>17325</ObjectId>
+      <Owner>postgres</Owner>
+      <Current>1</Current>
     </database>
     <database id="4" parent="1" name="ucheb">
       <ObjectId>17326</ObjectId>
+      <Owner>ucheb</Owner>
       <IntrospectionStateNumber>105</IntrospectionStateNumber>
-      <Current>1</Current>
       <Visible>1</Visible>
     </database>
     <role id="5" parent="1" name="dima">
@@ -9816,67 +9819,87 @@
     </role>
     <schema id="1405" parent="4" name="information_schema">
       <ObjectId>12113</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1406" parent="4" name="pg_catalog">
       <ObjectId>11</ObjectId>
       <Comment>system catalog schema</Comment>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1407" parent="4" name="pg_temp_1">
       <ObjectId>11848</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1408" parent="4" name="pg_temp_12">
       <ObjectId>55676</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1409" parent="4" name="pg_temp_16">
       <ObjectId>56507</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1410" parent="4" name="pg_temp_22">
       <ObjectId>795586</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1411" parent="4" name="pg_temp_27">
       <ObjectId>55663</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1412" parent="4" name="pg_temp_3">
       <ObjectId>55671</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1413" parent="4" name="pg_temp_33">
       <ObjectId>777110</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1414" parent="4" name="pg_temp_5">
       <ObjectId>795389</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1415" parent="4" name="pg_toast">
       <ObjectId>99</ObjectId>
       <Comment>reserved schema for TOAST tables</Comment>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1416" parent="4" name="pg_toast_temp_1">
       <ObjectId>11849</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1417" parent="4" name="pg_toast_temp_12">
       <ObjectId>55677</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1418" parent="4" name="pg_toast_temp_16">
       <ObjectId>56508</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1419" parent="4" name="pg_toast_temp_22">
       <ObjectId>795587</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1420" parent="4" name="pg_toast_temp_27">
       <ObjectId>55664</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1421" parent="4" name="pg_toast_temp_3">
       <ObjectId>55672</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1422" parent="4" name="pg_toast_temp_33">
       <ObjectId>777111</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1423" parent="4" name="pg_toast_temp_5">
       <ObjectId>795390</ObjectId>
+      <Owner>postgres</Owner>
     </schema>
     <schema id="1424" parent="4" name="public">
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
-      <IntrospectionTimestamp>2018-11-25.21:55:39.001</IntrospectionTimestamp>
+      <Owner>postgres</Owner>
+      <IntrospectionTimestamp>2018-12-11.10:32:51.944</IntrospectionTimestamp>
       <IntrospectionStateNumber>25848</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
